@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -15,35 +16,29 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = new User();
-        $user->name = 'Fikri Nurfaizi';
-        $user->email = 'admin1@gmail.com';
-        $user->password = Hash::make('rahasia');
-        $user->save();
+        $admin = Role::create([
+            'name' => 'admin',
+            'display_name' => 'Admin',
+        ]);
 
-        $user = new User();
-        $user->name = 'Fikri Nurfaizo';
-        $user->email = 'admin2@gmail.com';
-        $user->password = Hash::make('rahasia');
-        $user->save();
+        $customer = Role::create([
+            'name' => 'customer',
+            'display_name' => 'Customer',
+        ]);
 
-        $user = new User();
-        $user->name = 'Fikri Nurfaizu';
-        $user->email = 'admin3@gmail.com';
-        $user->password = Hash::make('rahasia');
-        $user->save();
+        $admin = new User();
+        $admin->name = 'Fikri Nurfaizi';
+        $admin->email = 'admin1@gmail.com';
+        $admin->password = Hash::make('rahasia');
+        $admin->save();
 
-        $user = new User();
-        $user->name = 'Fikri Nurfaizh';
-        $user->email = 'admin4@gmail.com';
-        $user->password = Hash::make('rahasia');
-        $user->save();
+        $customer = new User();
+        $customer->name = 'Customer';
+        $customer->email = 'customer@gmail.com';
+        $customer->password = Hash::make('rahasia');
+        $customer->save();
 
-        $user = new User();
-        $user->name = 'Fikri Nurfaizn';
-        $user->email = 'admin5@gmail.com';
-        $user->password = Hash::make('rahasia');
-        $user->save();
-
+        $admin->attachRole($admin);
+        $customer->attachRole($customer);
     }
 }
