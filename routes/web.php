@@ -41,3 +41,23 @@ Route::group(['prefix' => 'customer', 'middleware' => ['auth', 'role:customer']]
     });
 
 });
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+    Route::get('buku', function () {
+        return view('buku.index');
+    });
+
+    Route::get('stok', function () {
+        return view('stok.index');
+    });
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
+    Route::get('buku', function () {
+        return view('buku.index');
+    })->middleware(['role:admin|customer']);
+
+    Route::get('stok', function () {
+        return view('stok.index');
+    })->middleware(['role:admin']);
+});
