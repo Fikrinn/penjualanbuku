@@ -240,8 +240,8 @@ return [
 
         ],
         [
-            'text' => 'Stok Buku',
-            'url' => 'admin/stok',
+            'text' => 'Kategori',
+            'url' => 'admin/kategori',
 
         ],
 
