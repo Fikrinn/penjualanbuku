@@ -15,7 +15,7 @@ class KategoriController extends Controller
     public function index()
     {
         $kategori = Kategori::all();
-        return view('admin.kategori.index', compact('kategori'));
+        return view('kategori.index', compact('kategori'));
     }
 
     /**
@@ -25,7 +25,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('admin.kategori.create');
+        return view('kategori.create');
     }
 
     /**
@@ -57,7 +57,7 @@ class KategoriController extends Controller
      */
     public function show($id)
     {
-        $kategori = Kategori::findOrFile($id);
+        $kategori = Kategori::findOrFail($id);
         return view('kategori.show', compact('kategori'));
     }
 
@@ -81,14 +81,14 @@ class KategoriController extends Controller
      * @param  \App\Models\kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, kategori $kategori)
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'keterangan' => 'required',
             'nama_kategori' => 'required',
         ]);
 
-        $kategori = new kategori;
+        $kategori = kategori::findOrFail($id);
         $kategori->keterangan = $request->keterangan;
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->save();
@@ -101,7 +101,7 @@ class KategoriController extends Controller
      * @param  \App\Models\kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function destroy(kategori $kategori)
+    public function destroy($id)
     {
         $kategori = kategori::findOrFail($id);
         $kategori->delete();

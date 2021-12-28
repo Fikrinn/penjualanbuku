@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\buku;
+use App\Models\kategori;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
@@ -14,7 +15,8 @@ class BukuController extends Controller
      */
     public function index()
     {
-        //
+        $buku = buku::with('kategori')->get();
+        return view('buku.index', compact('buku'));
     }
 
     /**
@@ -24,7 +26,8 @@ class BukuController extends Controller
      */
     public function create()
     {
-        //
+        $kategori = kategori::all();
+        return view('buku.create', compact('kategori'));
     }
 
     /**
@@ -35,7 +38,35 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_kategori' => 'required',
+            'judul_buku' => 'required',
+            'harga' => 'required',
+            'cover' => 'required|image|max:2048',
+            'keterangan' => 'required',
+            'pengarang_buku' => 'required',
+            'stok' => 'required',
+            'tahun_terbit' => 'required',
+        ]);
+
+        $buku = new buku;
+        $buku->id_kategori = $request->id_kategori;
+        $buku->judul_buku = $request->judul_buku;
+        $buku->harga = $request->harga;
+
+        // upload image / foto
+        if ($request->hasFile('cover')) {
+            $image = $request->file('cover');
+            $name = rand(1000, 9999) . $image->getClientOriginalName();
+            $image->move('images/books/', $name);
+            $buku->cover = $name;
+        }
+        $buku->keterangan = $request->keterangan;
+        $buku->pengarang_buku = $request->pengarang_buku;
+        $buku->stok = $request->stok;
+        $buku->tahun_terbit = $request->tahun_terbit;
+        $buku->save();
+        return redirect()->route('buku.index');
     }
 
     /**
@@ -46,7 +77,8 @@ class BukuController extends Controller
      */
     public function show(buku $buku)
     {
-        //
+        $buku = buku::findOrFail($id);
+        return view('buku.show', compact('buku'));
     }
 
     /**
@@ -57,7 +89,9 @@ class BukuController extends Controller
      */
     public function edit(buku $buku)
     {
-        //
+        $buku = buku::findOrFail($id);
+        $kategori = kategori::all();
+        return view('buku.edit', compact('buku', 'kategori'));
     }
 
     /**
@@ -69,7 +103,35 @@ class BukuController extends Controller
      */
     public function update(Request $request, buku $buku)
     {
-        //
+        $request->validate([
+            'id_kategori' => 'required',
+            'judul_buku' => 'required|unique:buku',
+            'harga' => 'required',
+            'cover' => 'required|image|max:2048',
+            'keterangan' => 'required',
+            'pengarang_buku' => 'required',
+            'stok' => 'required',
+            'tahun_terbit' => 'required',
+        ]);
+
+        $buku = new buku;
+        $buku->id_kategori = $request->id_kategori;
+        $buku->judul_buku = $request->judul_buku;
+        $buku->harga = $request->harga;
+
+        // upload image / foto
+        if ($request->hasFile('cover')) {
+            $image = $request->file('cover');
+            $name = rand(1000, 9999) . $image->getClientOriginalName();
+            $image->move('images/books/', $name);
+            $buku->cover = $name;
+        }
+        $buku->keterangan = $request->keterangan;
+        $buku->pengarang_buku = $request->pengarang_buku;
+        $buku->stok = $request->stok;
+        $buku->tahun_terbit = $request->tahun_terbit;
+        $buku->save();
+        return redirect()->route('buku.index');
     }
 
     /**
@@ -80,6 +142,9 @@ class BukuController extends Controller
      */
     public function destroy(buku $buku)
     {
-        //
+        $buku = buku::findOrFail($id);
+        $buku->deleteImage();
+        $buku->delete();
+        return redirect()->route('buku.index');
     }
 }

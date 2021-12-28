@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BukuController;
+use App\Http\Controllers\KategoriController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,4 +62,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('stok', function () {
         return view('stok.index');
     })->middleware(['role:admin']);
+
+    Route::resource('kategori', KategoriController::class);
+    Route::resource('buku', BukuController::class);
+
 });
