@@ -58,7 +58,7 @@ class BukuController extends Controller
         if ($request->hasFile('cover')) {
             $image = $request->file('cover');
             $name = rand(1000, 9999) . $image->getClientOriginalName();
-            $image->move('images/books/', $name);
+            $image->move('image/buku/', $name);
             $buku->cover = $name;
         }
         $buku->keterangan = $request->keterangan;
@@ -75,10 +75,11 @@ class BukuController extends Controller
      * @param  \App\Models\buku  $buku
      * @return \Illuminate\Http\Response
      */
-    public function show(buku $buku)
+    public function show($id)
     {
         $buku = buku::findOrFail($id);
-        return view('buku.show', compact('buku'));
+        $kategori = kategori::all();
+        return view('buku.show', compact('buku', 'kategori'));
     }
 
     /**
@@ -87,7 +88,7 @@ class BukuController extends Controller
      * @param  \App\Models\buku  $buku
      * @return \Illuminate\Http\Response
      */
-    public function edit(buku $buku)
+    public function edit($id)
     {
         $buku = buku::findOrFail($id);
         $kategori = kategori::all();
@@ -101,11 +102,11 @@ class BukuController extends Controller
      * @param  \App\Models\buku  $buku
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, buku $buku)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'id_kategori' => 'required',
-            'judul_buku' => 'required|unique:buku',
+            'judul_buku' => 'required',
             'harga' => 'required',
             'cover' => 'required|image|max:2048',
             'keterangan' => 'required',
@@ -123,7 +124,7 @@ class BukuController extends Controller
         if ($request->hasFile('cover')) {
             $image = $request->file('cover');
             $name = rand(1000, 9999) . $image->getClientOriginalName();
-            $image->move('images/books/', $name);
+            $image->move('image/buku/', $name);
             $buku->cover = $name;
         }
         $buku->keterangan = $request->keterangan;
@@ -140,7 +141,7 @@ class BukuController extends Controller
      * @param  \App\Models\buku  $buku
      * @return \Illuminate\Http\Response
      */
-    public function destroy(buku $buku)
+    public function destroy($id)
     {
         $buku = buku::findOrFail($id);
         $buku->deleteImage();

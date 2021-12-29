@@ -14,7 +14,8 @@ class DetPenjualanController extends Controller
      */
     public function index()
     {
-        //
+        $det_penjualan = det_penjualan::with('penjualan', 'buku')->get();
+        return view('det_penjualan.index', compact('det_penjualan'));
     }
 
     /**

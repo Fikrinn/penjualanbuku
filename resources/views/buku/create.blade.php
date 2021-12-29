@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-header">Data Buku</div>
                     <div class="card-body">
-                        <form action="{{ route('buku.store') }}" method="post">
+                        <form action="{{ route('buku.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="">Masukan Judul Buku</label>

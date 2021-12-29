@@ -14,7 +14,8 @@ class PenjualanController extends Controller
      */
     public function index()
     {
-        //
+        $penjualan = penjualan::all();
+        return view('penjualan.index', compact('penjualan'));
     }
 
     /**
@@ -24,7 +25,8 @@ class PenjualanController extends Controller
      */
     public function create()
     {
-        //
+        return view('penjualan.create');
+
     }
 
     /**
@@ -35,7 +37,22 @@ class PenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama_rek' => 'required',
+            'no_rek' => 'required',
+            'total_buku' => 'required',
+            'bank' => 'required',
+            'total_harga' => 'required',
+        ]);
+
+        $penjualan = new penjualan;
+        $penjualan->nama_rek = $request->nama_rek;
+        $penjualan->no_rek = $request->no_rek;
+        $penjualan->total_buku = $request->total_buku;
+        $penjualan->bank = $request->bank;
+        $penjualan->total_harga = $request->total_harga;
+        $penjualan->save();
+        return redirect()->route('penjualan.index');
     }
 
     /**
@@ -44,9 +61,10 @@ class PenjualanController extends Controller
      * @param  \App\Models\penjualan  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function show(penjualan $penjualan)
+    public function show($id)
     {
-        //
+        $penjualan = penjualan::findOrFail($id);
+        return view('penjualan.show', compact('penjualan'));
     }
 
     /**
@@ -55,9 +73,10 @@ class PenjualanController extends Controller
      * @param  \App\Models\penjualan  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function edit(penjualan $penjualan)
+    public function edit($id)
     {
-        //
+        $penjualan = penjualan::findOrFail($id);
+        return view('penjualan.edit', compact('penjualan'));
     }
 
     /**
@@ -67,9 +86,24 @@ class PenjualanController extends Controller
      * @param  \App\Models\penjualan  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, penjualan $penjualan)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'nama_rek' => 'required',
+            'no_rek' => 'required',
+            'total_buku' => 'required',
+            'bank' => 'required',
+            'total_harga' => 'required',
+        ]);
+
+        $penjualan = new penjualan;
+        $penjualan->nama_rek = $request->nama_rek;
+        $penjualan->no_rek = $request->no_rek;
+        $penjualan->total_buku = $request->total_buku;
+        $penjualan->bank = $request->bank;
+        $penjualan->total_harga = $request->total_harga;
+        $penjualan->save();
+        return redirect()->route('penjualan.index');
     }
 
     /**
@@ -78,8 +112,10 @@ class PenjualanController extends Controller
      * @param  \App\Models\penjualan  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(penjualan $penjualan)
+    public function destroy($id)
     {
-        //
+        $penjualan = penjualan::findOrFail($id);
+        $penjualan->delete();
+        return redirect()->route('penjualan.index');
     }
 }

@@ -23,33 +23,37 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
-                                <tr>
-                                    <th>Nomor</th>
-                                    <th>Kategori</th>
-                                    <th>Keterangan</th>
-                                    <th>Aksi</th>
-                                </tr>
-                                @php $no=1; @endphp
-                                @foreach ($kategori as $data)
+                            <table class="table" id="example">
+                                <thead>
                                     <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $data->nama_kategori }}</td>
-                                        <td>{{ $data->keterangan }}</td>
-                                        <td>
-                                            <form action="{{ route('kategori.destroy', $data->id) }}" method="post">
-                                                @method('delete')
-                                                @csrf
-                                                <a href="{{ route('kategori.edit', $data->id) }}"
-                                                    class="btn btn-outline-info">Edit</a>
-                                                <a href="{{ route('kategori.show', $data->id) }}"
-                                                    class="btn btn-outline-warning">Show</a>
-                                                <button type="submit" class="btn btn-outline-danger"
-                                                    onclick="return confirm('Apakah anda yakin menghapusnya')">HAPUS</button>
-                                            </form>
-                                        </td>
+                                        <th>Nomor</th>
+                                        <th>Kategori</th>
+                                        <th>Keterangan</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                @endforeach
+                                </thead>
+                                <tbody>
+                                    @php $no=1; @endphp
+                                    @foreach ($kategori as $data)
+                                        <tr>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $data->nama_kategori }}</td>
+                                            <td>{{ $data->keterangan }}</td>
+                                            <td>
+                                                <form action="{{ route('kategori.destroy', $data->id) }}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <a href="{{ route('kategori.edit', $data->id) }}"
+                                                        class="btn btn-outline-info">Edit</a>
+                                                    <a href="{{ route('kategori.show', $data->id) }}"
+                                                        class="btn btn-outline-warning">Show</a>
+                                                    <button type="submit" class="btn btn-outline-danger"
+                                                        onclick="return confirm('Apakah anda yakin menghapusnya')">HAPUS</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -57,4 +61,18 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('css')
+    <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
+@endsection
+
+@section('js')
+    <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
 @endsection
