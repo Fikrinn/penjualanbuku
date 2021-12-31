@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\kategori;
 use Illuminate\Http\Request;
+use Session;
 
 class KategoriController extends Controller
 {
@@ -45,6 +46,10 @@ class KategoriController extends Controller
         $kategori->keterangan = $request->keterangan;
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data saved successfully",
+        ]);
         return redirect()->route('kategori.index');
 
     }
@@ -92,6 +97,10 @@ class KategoriController extends Controller
         $kategori->keterangan = $request->keterangan;
         $kategori->nama_kategori = $request->nama_kategori;
         $kategori->save();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data edited successfully",
+        ]);
         return redirect()->route('kategori.index');
     }
 
@@ -105,6 +114,10 @@ class KategoriController extends Controller
     {
         $kategori = kategori::findOrFail($id);
         $kategori->delete();
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data deleted successfully",
+        ]);
         return redirect()->route('kategori.index');
     }
 }

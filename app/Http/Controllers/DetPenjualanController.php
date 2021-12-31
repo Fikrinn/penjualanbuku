@@ -25,7 +25,8 @@ class DetPenjualanController extends Controller
      */
     public function create()
     {
-        //
+        $det_penjualan = det_penjualan::all();
+        return view('det_penjualan.create', compact('det_penjualan'));
     }
 
     /**
@@ -36,7 +37,20 @@ class DetPenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_buku' => 'required',
+            'harga_buku' => 'required',
+            'id_transaksi' => 'required',
+            'jumlah' => 'required',
+        ]);
+
+        $det_penjualan = new det_penjualan;
+        $det_penjualan->id_buku = $request->id_buku;
+        $det_penjualan->harga_buku = $request->harga_buku;
+        $det_penjualan->id_transaksi = $request->id_transaksi;
+        $det_penjualan->jumlah = $request->jumlah;
+        $det_penjualan->save();
+        return redirect()->route('det_penjualan.index');
     }
 
     /**
@@ -45,9 +59,11 @@ class DetPenjualanController extends Controller
      * @param  \App\Models\det_penjualan  $det_penjualan
      * @return \Illuminate\Http\Response
      */
-    public function show(det_penjualan $det_penjualan)
+    public function show($id)
     {
-        //
+        $buku = buku::findOrFail($id);
+        $penjulan = penjualan::all($id);
+        return view('det_penjualan.show', compact('buku', 'penjualan'));
     }
 
     /**
@@ -56,9 +72,11 @@ class DetPenjualanController extends Controller
      * @param  \App\Models\det_penjualan  $det_penjualan
      * @return \Illuminate\Http\Response
      */
-    public function edit(det_penjualan $det_penjualan)
+    public function edit($id)
     {
-        //
+        $buku = buku::findOrFail($id);
+        $penjulan = penjualan::all($id);
+        return view('det_penjualan.show', compact('buku', 'penjualan'));
     }
 
     /**
@@ -68,9 +86,22 @@ class DetPenjualanController extends Controller
      * @param  \App\Models\det_penjualan  $det_penjualan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, det_penjualan $det_penjualan)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'id_buku' => 'required',
+            'harga_buku' => 'required',
+            'id_transaksi' => 'required',
+            'jumlah' => 'required',
+        ]);
+
+        $det_penjualan = new det_penjualan;
+        $det_penjualan->id_buku = $request->id_buku;
+        $det_penjualan->harga_buku = $request->harga_buku;
+        $det_penjualan->id_transaksi = $request->id_transaksi;
+        $det_penjualan->jumlah = $request->jumlah;
+        $det_penjualan->save();
+        return redirect()->route('det_penjualan.index');
     }
 
     /**
@@ -79,8 +110,10 @@ class DetPenjualanController extends Controller
      * @param  \App\Models\det_penjualan  $det_penjualan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(det_penjualan $det_penjualan)
+    public function destroy($id)
     {
-        //
+        $det_penjualan = det_penjualan::findOrFail($id);
+        $det_penjualan->delete();
+        return redirect()->route('det_penjualan.index');
     }
 }

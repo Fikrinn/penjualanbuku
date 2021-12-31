@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('header')
+@section('content_header')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -12,6 +12,7 @@
 @endsection
 
 @section('content')
+    @include('layouts._flash')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">

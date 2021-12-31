@@ -14,6 +14,7 @@ class CreateDetPenjualansTable extends Migration
     public function up()
     {
         Schema::create('det_penjualans', function (Blueprint $table) {
+            $table->id();
             $table->BigInteger('id_buku')->unsigned();
             $table->integer('harga_buku');
             $table->BigInteger('id_transaksi')->unsigned();

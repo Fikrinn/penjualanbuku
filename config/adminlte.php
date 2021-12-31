@@ -244,6 +244,16 @@ return [
             'url' => 'admin/kategori',
 
         ],
+        [
+            'text' => 'Penjualan',
+            'url' => 'admin/penjualan',
+
+        ],
+        [
+            'text' => 'Detail Penjualan',
+            'url' => 'admin/det_penjualan',
+
+        ],
 
     ],
 

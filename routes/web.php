@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\DetpenjualanController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,5 +67,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
     Route::resource('kategori', KategoriController::class);
     Route::resource('buku', BukuController::class);
+    Route::resource('penjualan', PenjualanController::class);
+    Route::resource('det_penjualan', DetpenjualanController::class);
 
 });
